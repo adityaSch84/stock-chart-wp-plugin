@@ -1,0 +1,165 @@
+.stock-chart-container {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.stock-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.stock-info h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #1f2937;
+}
+
+.stock-price {
+    text-align: right;
+}
+
+.current-price {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1f2937;
+    margin: 0;
+}
+
+.price-change {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 4px 0 0 0;
+}
+
+.price-change.positive {
+    color: #10b981;
+}
+
+.price-change.negative {
+    color: #ef4444;
+}
+
+.exchange-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 20px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.exchange-tab {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+    color: #6b7280;
+}
+
+.exchange-tab.active {
+    background: white;
+    color: #1f2937;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.time-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.time-filter {
+    padding: 8px 16px;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    color: #6b7280;
+}
+
+.time-filter.active {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.time-filter:hover {
+    background: #f3f4f6;
+}
+
+.time-filter.active:hover {
+    background: #2563eb;
+}
+
+.chart-wrapper {
+    position: relative;
+    margin: 20px 0;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: #6b7280;
+    gap: 10px;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f4f6;
+    border-top: 2px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .stock-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .stock-price {
+        text-align: left;
+    }
+    
+    .current-price {
+        font-size: 24px;
+    }
+    
+    .time-filters {
+        flex-wrap: wrap;
+    }
+    
+    .time-filter {
+        flex: 1;
+        min-width: 60px;
+        text-align: center;
+    }
+    
+    .exchange-tab {
+        padding: 10px 16px;
+    }
+}
