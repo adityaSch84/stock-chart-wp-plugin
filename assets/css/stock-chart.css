@@ -1,3 +1,8 @@
+/* Prevent canvas from blocking scroll — lets Lenis and native scroll pass through */
+#jsl-stock-chart-canvas {
+    touch-action: pan-y;
+}
+
 .stock-chart-container {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: white;
@@ -162,4 +167,125 @@
     .exchange-tab {
         padding: 10px 16px;
     }
+}
+/* Custom date range picker */
+.jsl-custom-date-range {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    margin: 8px 0 0;
+    flex-wrap: wrap;
+    background: #fafafa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+.jsl-custom-date-range label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.jsl-custom-date-range input[type="date"] {
+    padding: 7px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #1f2937;
+    background: #fff;
+    cursor: pointer;
+}
+.jsl-custom-date-range input[type="date"]:focus {
+    outline: none;
+    border-color: #fb923c;
+    box-shadow: 0 0 0 2px rgba(251,146,60,0.15);
+}
+#jsl-custom-date-apply {
+    padding: 7px 16px;
+    background: #fb923c;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+#jsl-custom-date-apply:hover {
+    background: #ea7a1a;
+}
+
+/* ── Rolling digit price animation ─────────────────────────── */
+/* tabular-nums prevents layout shifts as digits change width */
+.stock-current-price {
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.jsl-price-num {
+    display: inline-flex;
+    align-items: flex-start;
+    line-height: 1;
+}
+
+/* Each digit's viewport — clips the scrolling strip */
+.jsl-digit-slot {
+    display: inline-block;
+    overflow: hidden;
+    height: 1em;
+    vertical-align: top;
+}
+
+/* Vertical strip holding two characters (old + new) */
+.jsl-digit-strip {
+    display: flex;
+    flex-direction: column;
+    /* transition added via JS only on animated digits */
+}
+
+.jsl-digit-strip > span {
+    display: block;
+    height: 1em;
+    line-height: 1;
+    text-align: center;
+}
+
+/* Decimal point — not animated */
+.jsl-sep {
+    display: inline-block;
+    height: 1em;
+    line-height: 1;
+    vertical-align: top;
+}
+/* ─────────────────────────────────────────────────────────── */
+
+/* Error notification */
+#jsl-chart-error {
+    margin: 8px 0 0;
+    padding: 8px 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Market open/closed badge */
+.market-status {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+.market-open {
+    color: #10b981;
+    background: rgba(16,185,129,0.1);
+}
+.market-closed {
+    color: #6b7280;
+    background: rgba(107,114,128,0.1);
 }

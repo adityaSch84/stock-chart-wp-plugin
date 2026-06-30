@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Enhanced Stock Chart
  * Description: Display NSE/BSE stock charts with multiple time periods
- * Version: 1.0.0
+ * Version: 2.0.0
  * Author: Aditya Shahi
  * Text Domain: stock-chart
  */
@@ -35,9 +35,6 @@ function stock_chart_activate() {
     // Create database tables or set default options
     add_option('stock_chart_api_key', '');
     add_option('stock_chart_cache_timeout', 300);
-    add_option('stock_chart_default_symbol', 'JSL');
-    add_option('stock_chart_default_company_name', 'Jindal Stainless Ltd. (JSL)');
-    add_option('stock_chart_exchange_display', 'both');
 }
 
 // Deactivation hook

@@ -1,7 +1,7 @@
 # Stock Chart Plugin - API Fallback Process
 
 ## Overview
-The plugin uses a **sequential fallback system** to fetch stock data. It tries multiple APIs in order until one succeeds, or returns an error if all APIs fail.
+The plugin uses a **sequential fallback system** to fetch stock data. It tries multiple APIs in order until one succeeds, or falls back to sample data if all APIs fail.
 
 ---
 
@@ -71,6 +71,11 @@ The plugin uses a **sequential fallback system** to fetch stock data. It tries m
      - Timeout: 10 seconds
      - **Status**: ⚠️ May require authentication/cookies
    
+  2. **GitHub Repository** (Fallback)
+     - Endpoint: `https://api.github.com/repos/maanavshah/stock-market-india/contents/data/nse/{symbol}.json`
+     - Timeout: 10 seconds
+     - **Status**: ✅ **Free, but limited stock coverage**
+
 - **If successful**: Returns processed data, stops fallback chain
 - **If fails**: Proceeds to Step 4b
 
@@ -79,9 +84,35 @@ The plugin uses a **sequential fallback system** to fetch stock data. It tries m
 - **Status**: ❌ **Not Implemented** (returns `false` immediately)
 - **Reason**: Limited free BSE API options available
 
-**If all alternative APIs fail**: Returns an error
+**If all alternative APIs fail**: Proceeds to Step 5
 
 ---
+
+### **Step 5: Sample Data Generation** 🎲 (Final Fallback)
+- **Method**: `generateRealisticSampleData()`
+- **Purpose**: Generates realistic-looking sample data when all APIs fail
+- **Process**:
+  1. Calculates number of days based on period
+  2. Uses base prices for known stocks (RELIANCE, TCS, INFY, etc.)
+  3. Generates price movements with realistic variations (±2% daily)
+  4. Creates OHLC data with volume
+- **Base Prices Used**:
+  ```php
+  'RELIANCE' => 2400,
+  'TCS' => 3200,
+  'INFY' => 1500,
+  'HDFCBANK' => 1600,
+  'ICICIBANK' => 900,
+  'SBIN' => 500,
+  'BHARTIARTL' => 800,
+  'ITC' => 400,
+  'KOTAKBANK' => 1800,
+  'LT' => 2000
+  ```
+- **Default**: Uses ₹1000 as base price for unknown symbols
+- **Data Source**: Marked as `'Sample Data'` in response
+
+**Status**: ✅ **Always Available** (fallback when all APIs fail)
 
 ---
 
@@ -108,10 +139,14 @@ Request Stock Data
     ├─ NSE Exchange?
     │   ├─ Try NSE Official API
     │   │   ├─ Success? → Cache & Return ✅
-    │   │   └─ Fail? → Continue
+    │   │   └─ Fail? → Try GitHub API
+    │   │       ├─ Success? → Cache & Return ✅
+    │   │       └─ Fail? → Continue
     │   └─ BSE Exchange? → Skip (not implemented)
     └─ Continue
        ↓
+[5] Generate Sample Data
+    └─ Return Sample Data ✅
 ```
 
 ---
@@ -120,6 +155,8 @@ Request Stock Data
 
 ### ✅ **Currently Working APIs:**
 1. **Yahoo Finance** - Free, no API key required, most reliable
+2. **GitHub Repository** (NSE only) - Free, but limited coverage
+3. **Sample Data** - Always available as fallback
 
 ### ⚠️ **Requires Configuration:**
 1. **Alpha Vantage** - Needs API key in WordPress admin settings
@@ -141,6 +178,7 @@ Request Stock Data
    - `"source": "Yahoo Finance"` ✅
    - `"source": "Alpha Vantage"` ✅
    - `"source": "NSE Data"` ✅
+   - `"source": "Sample Data"` ⚠️ (all APIs failed)
 
 ### Method 2: Check WordPress Debug Log
 Add this to `wp-config.php`:
@@ -193,7 +231,7 @@ update_option('stock_chart_api_key', 'YOUR_ALPHA_VANTAGE_API_KEY');
 2. Check if Yahoo Finance is accessible
 3. Verify symbol format (JSL.NS for NSE, JSL.BO for BSE)
 4. Check browser console for CORS errors
-5. Plugin returns an error (no data available)
+5. Plugin will fallback to sample data automatically
 
 ### Slow Loading?
 1. Check cache is working (should be fast on subsequent requests)
