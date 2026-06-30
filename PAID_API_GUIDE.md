@@ -99,6 +99,7 @@ Yahoo Finance API is **free** and doesn't offer paid plans. It's the primary API
    ↓ (if fails)
 2. Alpha Vantage (if API key is set)
    ↓ (if fails)
+3. Sample Data (for demonstration)
 ```
 
 ---
